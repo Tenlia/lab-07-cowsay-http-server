@@ -1,7 +1,7 @@
 'use strict';
 
 // node modules
-const fs = require('fs');
+// const fs = require('fs');
 const http = require('http');
 const url = require('url');
 const queryString = require('querystring');
@@ -33,20 +33,35 @@ const server = http.createServer(function(req, res){
   }
 
   if(req.method === 'GET' && req.url.pathname === '/cowsay'){
-    parseBody(req, function(err){
+    if(req.url.query.text){
+      res.writeHead(200, {'Content-Type': 'text/plain'});
+      res.write(cowsay.say({
+        text: req.url.query.text,
+        f: req.url.query.f,
+        e: req.url.query.e,
+        T: req.url.query.t,
+      }));
+    } else {
+      res.writeHead(400, {'Content-Type': 'text/plain'});
+      res.write(cowsay.say({
+        text: 'bad request\ntry: http GET :3000/cowsay text=="howdy"',
+        f: 'vader',
+      }));
+    }
+    res.end();
+    return;
+  }
+
+  if(req.method === 'POST' && req.url.pathname === '/cowsay'){
+    parseBody(req, function(err, body){
       if(err) return console.error(err);
       if(req.url.query.text){
-        res.writeHead(200, ({'Content-Type': 'text/plain'}));
-        res.write(cowsay.say({
-          text: req.url.query.text,
-          f: req.url.query.f,
-          e: req.url.query.e,
-          T: req.url.query.t,
-        }));
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.write(cowsay.say({text: body}));
       } else {
-        res.writeHead(400, ({'Content-Type': 'text/plain'}));
+        res.writeHead(400, {'Content-Type': 'text/plain'});
         res.write(cowsay.say({
-          text: 'bad request\ntry: http :3000/cowsay text==howdy',
+          text: 'bad request\ntry: http POST :3000/cowsay text=="howdy"',
           f: 'vader',
         }));
       }
