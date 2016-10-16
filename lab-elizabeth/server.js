@@ -55,7 +55,7 @@ const server = http.createServer(function(req, res){
   if(req.method === 'POST' && req.url.pathname === '/cowsay'){
     parseBody(req, function(err, body){
       if(err) return console.error(err);
-      if(req.url.query.text){
+      if(req.body.text){
         res.writeHead(200, {'Content-Type': 'text/plain'});
         res.write(cowsay.say({text: body}));
       } else {

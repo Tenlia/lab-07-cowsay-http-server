@@ -10,7 +10,9 @@ you need to have Node installed, of course.
 
 You can go to https://nodejs.org/ download from there, extract the file and install.
 
-Then, you need to go to the directory containing the server.js file and open it using node with the command `PORT=<your-port-number> node server.js` this will automatically start your server in the port you choose, you can also choose to enter just `node server.js` and it will automatically open the server on port 3000 for you.
+Then, you need to go to the directory containing the package.json file and the server.js file and run `npm install` to make sure all the package dependencies are installed before you start your server.
+
+Then, you need to open server.js file using node with the command `PORT=<your-port-number> node server.js` this will automatically start your server in the port you choose, you can also choose to enter just `node server.js` and it will automatically open the server on port 3000 for you.
 
 to exit the server, you simply need to hold ctrl and press C.
 
